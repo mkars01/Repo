@@ -13,7 +13,6 @@ func HelloHTTP(w http.ResponseWriter, r *http.Request) {
 	var d struct {
 		Name string `json:"name"`
 	}
-	fmt.Println("Name Parameter: " + d.Name)
 	if err := json.NewDecoder(r.Body).Decode(&d); err != nil {
 		fmt.Fprint(w, "Hello, World!")
 		return
