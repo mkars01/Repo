@@ -15,11 +15,11 @@ func HelloHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprint(w, "Name Parameter: "+d.Name)
 	if err := json.NewDecoder(r.Body).Decode(&d); err != nil {
-		fmt.Fprint(w, "Hello, World!")
+		fmt.Fprint(w, "Hello, World (err)!")
 		return
 	}
 	if d.Name == "" {
-		fmt.Fprint(w, "Hello, World!")
+		fmt.Fprint(w, "Hello, World (no Name parm)!")
 		return
 	}
 	fmt.Fprintf(w, "Hello, %s!", html.EscapeString(d.Name))
