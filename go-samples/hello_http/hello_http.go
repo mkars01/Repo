@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -19,6 +20,9 @@ func HelloHTTP(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "%v: %v\n", name, h)
 		}
 	}
+	bodyBytes, err2 := ioutil.ReadAll(r.Body)
+	bodyString := string(bodyBytes)
+	fmt.Fprintf(w, bodyString, err2)
 	fmt.Fprintln(w, "Name Parameter: "+d.Name)
 	if err := json.NewDecoder(r.Body).Decode(&d); err != nil {
 		fmt.Fprint(w, "Hello, World (err)!"+err.Error())
