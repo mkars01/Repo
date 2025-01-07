@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"html"
-	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -15,18 +13,11 @@ func HelloHTTP(w http.ResponseWriter, r *http.Request) {
 	var d struct {
 		Name string `json:"name"`
 	}
-	for name, headers := range r.Header {
-		for _, h := range headers {
-			fmt.Fprintf(w, "%v: %v\n", name, h)
-		}
-	}
-	bodyBytes, err2 := ioutil.ReadAll(r.Body)
-	bodyString := string(bodyBytes)
-	fmt.Fprintf(w, bodyString, err2)
-	fmt.Fprintln(w, "Name Parameter: "+d.Name)
-	if err := json.NewDecoder(r.Body).Decode(&d); err != nil {
-		fmt.Fprint(w, "Hello, World (err)!"+err.Error())
-		log.Println("json.Compact:", err)
+	err := json.NewDecoder(r.Body).Decode(&d)
+	fmt.Fprintln(w, "d.Name: ", d.Name)
+	if err != nil {
+		fmt.Fprintln(w, "Hello, World (err)!")
+		fmt.Fprintln(w, err.Error())
 		return
 	}
 	if d.Name == "" {
